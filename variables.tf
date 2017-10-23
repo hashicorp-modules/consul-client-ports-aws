@@ -1,6 +1,6 @@
-variable "environment" {
-  default     = "consul-client"
-  description = "Environment name."
+variable "name" {
+  default     = "consul-client-ports-aws"
+  description = "Name for resources, defaults to \"consul-client-ports-aws\"."
 }
 
 variable "vpc_id" {

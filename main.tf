@@ -1,11 +1,11 @@
 # https://www.consul.io/docs/agent/options.html#ports
 resource "aws_security_group" "consul_client" {
-  name        = "${var.environment}"
+  name        = "${var.name}"
   description = "Security Group for Consul instances"
   vpc_id      = "${var.vpc_id}"
 
   tags {
-    Name = "${var.environment}"
+    Name = "${var.name}"
   }
 }
 
