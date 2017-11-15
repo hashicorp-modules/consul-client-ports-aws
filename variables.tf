@@ -1,3 +1,8 @@
+variable "provision" {
+  default     = "true"
+  description = "Override to prevent provisioning resources in this module, defaults to \"true\"."
+}
+
 variable "name" {
   default     = "consul-client-ports-aws"
   description = "Name for resources, defaults to \"consul-client-ports-aws\"."
