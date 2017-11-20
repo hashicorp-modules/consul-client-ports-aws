@@ -3,7 +3,7 @@ resource "aws_security_group" "consul_client" {
   count = "${var.provision == "true" ? 1 : 0}"
 
   name        = "${var.name}"
-  description = "Security Group for Consul instances"
+  description = "Security Group for ${var.name} Consul"
   vpc_id      = "${var.vpc_id}"
 
   tags {
