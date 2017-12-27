@@ -11,6 +11,7 @@ module "consul_client_ports_aws" {
   source = "../../../consul-client-ports-aws"
   # source = "git@github.com:hashicorp-modules/consul-client-ports-aws?ref=f-refactor"
 
+  count       = "${var.count}"
   name        = "${var.name}"
   vpc_id      = "${aws_vpc.main.id}"
   cidr_blocks = ["${var.cidr_blocks}"]
