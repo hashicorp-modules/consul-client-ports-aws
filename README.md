@@ -14,6 +14,7 @@ Creates a standard Consul client security group in AWS.
 - `name`: [Optional] Name for resources, defaults to "consul-client-ports-aws".
 - `vpc_id`: [Required] VPC ID to provision resources in.
 - `cidr_blocks`: [Required] CIDR blocks for Security Groups.
+- `tags`: [Optional] Optional map of tags to set on resources, defaults to empty map.
 
 ## Outputs
 

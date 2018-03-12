@@ -17,9 +17,7 @@ resource "aws_security_group" "consul_client" {
   description = "Security Group for ${var.name} Consul"
   vpc_id      = "${var.vpc_id}"
 
-  tags {
-    Name = "${var.name}"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s", var.name)))}"
 }
 
 # Serf LAN (Default 8301) - TCP. This is used to handle gossip in the LAN. Required by all agents on TCP and UDP.
