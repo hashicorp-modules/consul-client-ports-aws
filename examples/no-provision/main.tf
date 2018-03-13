@@ -1,6 +1,6 @@
 module "consul_client_ports_aws" {
+  # source = "github.com/hashicorp-modules/consul-client-ports-aws?ref=f-refactor"
   source = "../../../consul-client-ports-aws"
-  # source = "git@github.com:hashicorp-modules/consul-client-ports-aws?ref=f-refactor"
 
   count       = "0"
   vpc_id      = "1234"

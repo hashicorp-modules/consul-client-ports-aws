@@ -8,8 +8,8 @@ resource "aws_vpc" "main" {
 }
 
 module "consul_client_ports_aws" {
+  # source = "github.com/hashicorp-modules/consul-client-ports-aws?ref=f-refactor"
   source = "../../../consul-client-ports-aws"
-  # source = "git@github.com:hashicorp-modules/consul-client-ports-aws?ref=f-refactor"
 
   vpc_id      = "${aws_vpc.main.id}"
   cidr_blocks = ["${aws_vpc.main.cidr_block}"]
