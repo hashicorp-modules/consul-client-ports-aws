@@ -2,18 +2,11 @@ terraform {
   required_version = ">= 0.9.3"
 }
 
-resource "random_id" "name" {
-  count = "${var.count}"
-
-  byte_length = 4
-  prefix      = "${var.name}-${count.index + 1}-"
-}
-
 # https://www.consul.io/docs/agent/options.html#ports
 resource "aws_security_group" "consul_client" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  name        = "${element(random_id.name.*.hex, count.index)}"
+  name_prefix = "${var.name}-"
   description = "Security Group for ${var.name} Consul"
   vpc_id      = "${var.vpc_id}"
 
@@ -22,9 +15,9 @@ resource "aws_security_group" "consul_client" {
 
 # Serf LAN (Default 8301) - TCP. This is used to handle gossip in the LAN. Required by all agents on TCP and UDP.
 resource "aws_security_group_rule" "serf_lan_tcp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 8301
@@ -34,9 +27,9 @@ resource "aws_security_group_rule" "serf_lan_tcp" {
 
 # Serf LAN (Default 8301) - UDP. This is used to handle gossip in the LAN. Required by all agents on TCP and UDP.
 resource "aws_security_group_rule" "serf_lan_udp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "udp"
   from_port         = 8301
@@ -48,9 +41,9 @@ resource "aws_security_group_rule" "serf_lan_udp" {
 # This is deprecated in Consul 0.8 and later - all CLI commands were changed to use the
 # HTTP API and the RPC interface was completely removed.
 resource "aws_security_group_rule" "cli_rpc_tcp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 8400
@@ -60,9 +53,9 @@ resource "aws_security_group_rule" "cli_rpc_tcp" {
 
 # HTTP API (Default 8500) - TCP. This is used by agents to talk to the HTTP API on TCP only.
 resource "aws_security_group_rule" "http_api_tcp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 8500
@@ -72,9 +65,9 @@ resource "aws_security_group_rule" "http_api_tcp" {
 
 # DNS Interface (Default 8600) - TCP. Used to resolve DNS queries on TCP and UDP.
 resource "aws_security_group_rule" "dns_interface_tcp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 8600
@@ -84,9 +77,9 @@ resource "aws_security_group_rule" "dns_interface_tcp" {
 
 # DNS Interface (Default 8600) - UDP. Used to resolve DNS queries on TCP and UDP.
 resource "aws_security_group_rule" "dns_interface_udp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "ingress"
   protocol          = "udp"
   from_port         = 8600
@@ -96,9 +89,9 @@ resource "aws_security_group_rule" "dns_interface_udp" {
 
 # All outbound traffic - TCP.
 resource "aws_security_group_rule" "outbound_tcp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "egress"
   protocol          = "tcp"
   from_port         = 0
@@ -108,9 +101,9 @@ resource "aws_security_group_rule" "outbound_tcp" {
 
 # All outbound traffic - UDP.
 resource "aws_security_group_rule" "outbound_udp" {
-  count = "${var.count}"
+  count = "${var.create ? 1 : 0}"
 
-  security_group_id = "${element(aws_security_group.consul_client.*.id, count.index)}"
+  security_group_id = "${element(aws_security_group.consul_client.*.id, 0)}"
   type              = "egress"
   protocol          = "udp"
   from_port         = 0

@@ -10,7 +10,7 @@ Creates a standard Consul client security group in AWS.
 
 ## Input Variables
 
-- `count`: [Optional] Module count, defaults to "1".
+- `create`: [Optional] Create Module, defaults to true.
 - `name`: [Optional] Name for resources, defaults to "consul-client-ports-aws".
 - `vpc_id`: [Required] VPC ID to provision resources in.
 - `cidr_blocks`: [Required] CIDR blocks for Security Groups.
