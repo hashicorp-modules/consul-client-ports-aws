@@ -74,6 +74,18 @@ resource "aws_security_group_rule" "http_api_tcp" {
   cidr_blocks       = ["${var.cidr_blocks}"]
 }
 
+# HTTPS API (Default 8501) - TCP. This is used by agents to talk to the HTTPS API on TCP only.
+resource "aws_security_group_rule" "https_api_tcp" {
+  count = "${var.create ? 1 : 0}"
+
+  security_group_id = "${aws_security_group.consul_client.id}"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8501
+  to_port           = 8501
+  cidr_blocks       = ["${var.cidr_blocks}"]
+}
+
 # DNS Interface (Default 8600) - TCP. Used to resolve DNS queries on TCP and UDP.
 resource "aws_security_group_rule" "dns_interface_tcp" {
   count = "${var.create ? 1 : 0}"
